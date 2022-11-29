@@ -1,10 +1,12 @@
-name: ci-client-cli
+name: check-node
+
+# on:
+#   schedule:
+#     - cron:  '50 1 * * *' # every 6 hour
 
 on:
-  schedule:
-    - cron:  '50 1 * * *' # every 6 hour
-
-
+  # 手动触发事件
+  workflow_dispatch:
 
 jobs:
   npm-install-1:
@@ -39,6 +41,9 @@ jobs:
           npm install --save-dev mocha @types/mocha chai @types/chai
       - name: run test
         id: test-cli
+        env:
+          UNIFRA_API_KEY: '${{ secrets.UNIFRA_API_KEY }}'
+          GET_BLOCK_API_KEY: '${{ secrets.GET_BLOCK_API_KEY }}'
         run: |
           npm run test
       - name: Publish reports
