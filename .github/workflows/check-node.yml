@@ -1,12 +1,12 @@
 name: check-node
 
-# on:
-#   schedule:
-#     - cron:  '50 1 * * *' # every 6 hour
-
 on:
+  schedule:
+    - cron:  '50 1 * * *' # every 6 hour
+
+# on:
   # 手动触发事件
-  workflow_dispatch:
+#   workflow_dispatch:
 
 jobs:
   npm-install-1:
