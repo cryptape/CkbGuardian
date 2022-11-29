@@ -11,7 +11,7 @@
     "url": "https://docs.unifra.io/chain-apis/nervos-api/module-chain",
     "network": "MIRANA",
     "rpc": "https://ckb-mirana.unifra.io/v1/",
-    "apiKeyName": "UNIFRA-API-KEY",
+    "apiKeyName": "UNIFRA_API_KEY",
     "excludeMethods": ["send_alert","get_fee_rate_statics","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","get_banned_addresses","ping_peers","subscribe","unsubscribe"]
   },
   {
@@ -25,7 +25,7 @@
     "name": "getblock",
     "url": "https://account.getblock.io/",
     "network": "MIRANA",
-    "apiKeyName": "GET-BLOCK-API-KEY",
+    "apiKeyName": "GET_BLOCK_API_KEY",
     "rpc": "https://ckb.getblock.io/",
     "excludeMethods": ["send_alert","get_fee_rate_statics","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","get_banned_addresses","ping_peers","subscribe","unsubscribe"]
   }
