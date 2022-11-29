@@ -1,0 +1,16 @@
+[
+  {
+    "name": "public",
+    "url": "https://mainnet.ckb.dev/",
+    "network": "MIRANA",
+    "rpc": "https://mainnet.ckb.dev/",
+    "excludeMethods": ["send_alert","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool"]
+  },
+  {
+    "name": "getblock",
+    "url": "https://account.getblock.io/",
+    "network": "MIRANA",
+    "rpc": "x",
+    "excludeMethods": []
+  }
+]

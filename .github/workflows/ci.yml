@@ -1,0 +1,7 @@
+- name: Run tests
+    working-directory: contracts
+    run: npm run test:${{ matrix.network }}
+    env:
+      PRIVATE_KEY: ${{ secrets.GODWOKEN_TEST_PRIVATE_KEY }}
+      PRIVATE_KEY2: ${{ secrets.GODWOKEN_TEST_PRIVATE_KEY2 }}
+      PRIVATE_KEY3: ${{ secrets.GW_TESTNET_V1_TEST_PK }}

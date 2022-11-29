@@ -1,0 +1,12 @@
+{
+    "require": [
+        "test/runners/mocha/init.js"
+    ],
+    "spec": [
+        "test/ckb.spec.test.ts"
+    ]
+}
+//get_transactions.spec.ts
+//   scenes.test.ts
+//   send_transaction.spec.ts
+//   set_scripts.spec.ts
