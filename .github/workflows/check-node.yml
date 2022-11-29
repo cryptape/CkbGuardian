@@ -52,4 +52,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: jfoa-build-reports-${{ runner.os }}
-          path: mochawesome-report/
+          path: ckb/mochawesome-report/
