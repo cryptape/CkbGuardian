@@ -1,0 +1,64 @@
+name: check-node
+
+
+
+on:
+#   手动触发事件
+  workflow_dispatch:
+
+jobs:
+  npm-install-1:
+    strategy:
+      fail-fast: false
+      matrix:
+        net: ['testnet_v1']
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Node Cache
+        uses: actions/cache@v2
+        id: npm-and-yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: |
+            ${{ steps.yarn-cache-dir-path.outputs.dir }}
+            ~/.npm
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('/home/runner/work/**/package-lock.json', '/home/runner/work/**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules-
+      - name: prepare env
+        id: runtest
+        run: |
+          cd ckb
+          npm install --save-dev mocha @types/mocha chai @types/chai
+      - name: run test
+        id: test-cli
+        env:
+          UNIFRA_API_KEY: '${{ secrets.UNIFRA_API_KEY }}'
+          GET_BLOCK_API_KEY: '${{ secrets.GET_BLOCK_API_KEY }}'
+        run: |
+          cd ckb
+          npm run test
+      - name: Generate report
+        if: success() || failure()
+        run: |
+          mkdir public
+          cp -r ckb/mochawesome-report/* public          
+      - name: Deploy report page to GitHub Page
+        uses: peaceiris/actions-gh-pages@v3
+        if: success() || failure()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public        
+      - name: Publish reports
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: jfoa-build-reports-${{ runner.os }}
+          path: ckb/mochawesome-report/
