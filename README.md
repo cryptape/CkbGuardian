@@ -11,9 +11,15 @@ json
 export class CkbNodeConfig {
     name: string.  // server name
     url: string.   // server url 
-    network: string. // now support main 
+    network: string. // now noly support main 
     rpc: string.     // rpc url 
-    apiKeyName: string. // rpc with apiKey
+    apiKeyName: string. // if need api-key 
     excludeMethods: string[]. // service not support methods 
 }
 ```
+
+### apiKeyName
+if connect ckb service need api key 
+1. add apikeyName : apiKeyName:SERVICE_API_KEY
+2. add .env : SERVICE_API_KEY="xxxxxx" :https://github.com/gpBlockchain/CkbGuardian/blob/main/ckb/.env
+3. mod gitflow:https://github.com/gpBlockchain/CkbGuardian/blob/main/.github/workflows/check-node.yml#L45-L46
