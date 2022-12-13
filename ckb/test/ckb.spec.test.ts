@@ -16,8 +16,9 @@ describe('Ckb Node Rpc check Tests', function () {
             if (!checkMethodIsExclude(config, this.currentTest.title)) {
                 return;
             }
-            this.currentTest.title = this.currentTest.title + ",expected failed ,but run passed now"
+            this.currentTest.title = this.currentTest.title + ",expected failed "
             if (this.currentTest.isPassed()) {
+                this.currentTest.title = this.currentTest.title +",but run passed now"
                 this.currentTest.state = "failed"
                 return;
             }
