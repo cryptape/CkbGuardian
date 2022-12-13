@@ -30,5 +30,5 @@ export function getCkbNodeConfigByFile(path: string): CkbNodeConfig[] {
 }
 
 export function checkMethodIsExclude(config: CkbNodeConfig, method: string): boolean {
-    return config.excludeMethods.some(currentMethod => currentMethod == method)
+    return config.excludeMethods.some(currentMethod => currentMethod === method)
 }
