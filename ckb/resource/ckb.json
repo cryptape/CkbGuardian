@@ -7,13 +7,6 @@
     "excludeMethods": ["send_alert","get_fee_rate_statics","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","subscribe","unsubscribe"]
   },
   {
-    "name": "imtoken",
-    "url": "https://ckb-mainnet.improd.works",
-    "network": "MIRANA",
-    "rpc": "https://ckb-mainnet.improd.works",
-    "excludeMethods": ["send_alert","get_fee_rate_statics","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","get_banned_addresses","ping_peers","subscribe","unsubscribe"]
-  },
-  {
     "name": "unifra",
     "url": "https://docs.unifra.io/chain-apis/nervos-api/module-chain",
     "network": "MIRANA",
@@ -26,14 +19,6 @@
     "url": "",
     "network": "MIRANA",
     "rpc": "https://rpc.ankr.com/nervos_ckb",
-    "excludeMethods": ["send_alert","get_fee_rate_statics","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","get_banned_addresses","ping_peers","subscribe","unsubscribe","local_node_info"]
-  },
-  {
-    "name": "getblock",
-    "url": "https://account.getblock.io/",
-    "network": "MIRANA",
-    "apiKeyName": "GET_BLOCK_API_KEY",
-    "rpc": "https://ckb.getblock.io/",
-    "excludeMethods": ["send_alert","get_fee_rate_statics","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","get_banned_addresses","ping_peers","subscribe","unsubscribe"]
+    "excludeMethods": ["send_alert","get_fee_rate_statics","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","get_banned_addresses","ping_peers","subscribe","unsubscribe","local_node_info","get_peers","sync_state"]
   }
 ]
