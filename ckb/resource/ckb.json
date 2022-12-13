@@ -26,7 +26,7 @@
     "url": "",
     "network": "MIRANA",
     "rpc": "https://rpc.ankr.com/nervos_ckb",
-    "excludeMethods": ["send_alert","get_fee_rate_statics","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","get_banned_addresses","ping_peers","subscribe","unsubscribe","local_node_info","get_peers","sync_state"]
+    "excludeMethods": ["send_alert","get_fee_rate_statics","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","get_banned_addresses","ping_peers","subscribe","unsubscribe","local_node_info"]
   },
   {
     "name": "getblock",
