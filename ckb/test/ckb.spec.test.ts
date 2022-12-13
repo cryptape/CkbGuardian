@@ -9,6 +9,7 @@ import {expect} from "chai";
 describe('Ckb Node Rpc check Tests', function () {
     this.timeout(1000_00000)
     const ckbConfigs = getCkbNodeConfigByFile(CKB_CONFIG_FILE_PATH)
+    let idx = 0;
     ckbConfigs.forEach(config => {
         const TestCkBkbClient = new CKBRPC(config.rpc);
         afterEach(function () {
@@ -21,19 +22,14 @@ describe('Ckb Node Rpc check Tests', function () {
                 return;
             }
             this.currentTest.state = "passed"
-            console.log("state:", this.currentTest.isPassed())
-
         })
         describe(config.name, async () => {
+            before(async () => {
+                const version = await getCkbVersion(TestCkBkbClient)
+                this.suites[idx].title = this.suites[idx].title + "(" + version + ")"
+                idx++
+            })
             describe('Chain', function () {
-
-
-                // beforeEach(function () {
-                //     console.log("current test", this.currentTest.title)
-                //     if (this.currentTest.title == "get_block") {
-                //         this.skip()
-                //     }
-                // })
 
 
                 this.timeout(1000_000)
@@ -123,6 +119,7 @@ describe('Ckb Node Rpc check Tests', function () {
                 //     expect(JSON.stringify(response).toString()).to.be.equal(JSON.stringify(response2).toString())
                 //
                 // })
+
                 it("get_consensus", async () => {
                     let response = await TestCkBkbClient.getConsensus()
                     console.log("response1:", response)
@@ -179,7 +176,7 @@ describe('Ckb Node Rpc check Tests', function () {
                         )
 
                         console.log("response1:", response)
-                    }catch (e){
+                    } catch (e) {
                         expect(e.toString()).to.be.include("TransactionFailedToResolve")
                         return
                     }
@@ -246,7 +243,7 @@ describe('Ckb Node Rpc check Tests', function () {
                             version: "0x0",
                             witnesses: []
                         })
-                    }catch (e){
+                    } catch (e) {
                         expect(e.toString()).to.be.include("TransactionFailedToResolve")
                         return
                     }
@@ -524,3 +521,14 @@ const request = async (
     }
     return data.result;
 };
+
+async function getCkbVersion(ckbRpcClient: CKBRPC): Promise<String> {
+    try {
+
+        let info = await ckbRpcClient.localNodeInfo()
+        return info.version
+    } catch (e) {
+        return "-"
+    }
+
+}
