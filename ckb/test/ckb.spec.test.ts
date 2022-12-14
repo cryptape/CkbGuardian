@@ -18,7 +18,7 @@ describe('Ckb Node Rpc check Tests', function () {
             idx++
         })
 
-        describe(config.name, function () {
+        describe(config.name+"-"+config.network, function () {
             describe('Chain', function () {
                 this.timeout(1000_000)
                 it('get_block', async () => {
@@ -380,7 +380,7 @@ describe('Ckb Node Rpc check Tests', function () {
                 it("local_node_info", async () => {
                     await ckbRequestTest(this.ctx, TestCkBkbClient.localNodeInfo(), config)
                 })
-                it.only("get_peers", async () => {
+                it("get_peers", async () => {
                     await ckbRequestTest(this.ctx, TestCkBkbClient.getPeers(), config)
                 })
                 it("get_banned_addresses", async () => {
