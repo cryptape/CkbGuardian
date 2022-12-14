@@ -1,6 +1,6 @@
 # CkbGuardian
 check ckb is work normal,only check support method ,not check method result
-- https://cryptape.github.io/CkbGuardian/mochawesome.html
+- https://cryptape.github.io/CkbGuardian/index.html
 
 # add rpc 
 
