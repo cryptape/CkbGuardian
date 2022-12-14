@@ -6,7 +6,7 @@ check ckb is work normal,only check support method ,not check method result
 
 pull request data to  https://github.com/cryptape/CkbGuardian/blob/main/ckb/resource/ckb.json
 
-json 
+
 ```
 export class CkbNodeConfig {
     name: string.  // server name
