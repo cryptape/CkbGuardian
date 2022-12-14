@@ -17,6 +17,8 @@ export class CkbNodeConfig {
     excludeMethods: string[]. // service not support methods 
 }
 ```
+If you want to be able to check your ckb node every day, you can submit an `issue`  or  `pull request`
+- example: https://github.com/cryptape/CkbGuardian/pull/2/commits/a2dcefed7a61fbfa40d89564a9e8520dd7bc2cd2
 
 ### apiKeyName
 if connect ckb service need api key 
