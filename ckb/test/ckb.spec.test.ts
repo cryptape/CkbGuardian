@@ -5,7 +5,7 @@ import fetch from "cross-fetch";
 import {Context, describe} from "mocha";
 import {expect} from "chai";
 
-describe('Ckb Node Rpc check Tests', function () {
+describe('1 Ckb Node Rpc check Tests', function () {
     this.timeout(1000_00000)
     const ckbConfigs = getCkbNodeConfigByFile(CKB_CONFIG_FILE_PATH)
     let idx = 0;
@@ -68,20 +68,14 @@ describe('Ckb Node Rpc check Tests', function () {
                     await ckbRequestTest(this.ctx, TestCkBkbClient.getBlockEconomicState("0xb2671d3cc16b7738bbc8902ef11322bc2bfe7c54f5ce4a5cdfdf57b1a02fcb11"), config)
                 })
                 it("get_transaction_proof", async () => {
-                    await ckbRequestTest(this.ctx, TestCkBkbClient.getTransactionProof(["0x037dafd7f9c6f742e8c9f225191b441b0b5c4e8b3c1e87c29a2f2ec2fbbf6934"]), config)
+                    const block = await TestCkBkbClient.getBlockByNumber("0x0")
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.getTransactionProof(block.transactions.map(tx=>tx.hash)), config)
                 })
                 it("verify_transaction_proof", async () => {
-                    await ckbRequestTest(this.ctx, TestCkBkbClient.verifyTransactionProof({
-                        "blockHash": "0xb3c5b9789dff3821e298a62e6cc4060accb19ed2558f988a8826573252b9ae20",
-                        "proof": {
-                            "indices": ["0x6"],
-                            "lemmas": [
-                                "0xdeffa7c8e12d1bb51a1132c90e413c28210f55b8dcdadb8f47dd4621a6a08355",
-                                "0x6d6bf0ffd88205f62e41eefc78a95abf8353843ff7b41a85dd2ce0750fa61a51"
-                            ]
-                        },
-                        "witnessesRoot": "0xdcfb809616396e599c598b156769b2076be639232f29dedff51c5bd81eb03626"
-                    }), config)
+
+                    const block = await TestCkBkbClient.getBlockByNumber("0x0")
+                    const proof = await TestCkBkbClient.getTransactionProof(block.transactions.map(tx=>tx.hash))
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.verifyTransactionProof(proof), config)
                 })
 
                 // it("get_fork_block",async ()=>{
@@ -166,12 +160,12 @@ describe('Ckb Node Rpc check Tests', function () {
                         try {
                             await TestCkBkbClient.calculateDaoMaximumWithdraw(
                                 {
-                                    index: "0x0",
-                                    txHash: "0x42e82575740ec53e0b52ce8a36e212ad62beb58d1beac997996363e0bfe3d9e5"
+                                    index: "0x1",
+                                    txHash: "0x12e82575740ec53e0b52ce8a36e212ad62beb58d1beac997996363e0bfe3d9e5"
                                 },
                                 "0xa5f5c85987a15de25661e5a214f2c1449cd803f071acc7999820f25246471f40")
                         } catch (e) {
-                            expect(e.toString()).to.be.include("DaoError")
+                            expect(e.toString()).to.be.include("invalid out_point")
                             return
                         }
                         expect.fail("failed ")
