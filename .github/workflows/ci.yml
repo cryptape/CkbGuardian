@@ -51,6 +51,7 @@ jobs:
       - name: Generate report
         if: success() || failure()
         run: |
+          mv ckb/mochawesome-report/mochawesome.html ckb/mochawesome-report/index.html 
           mkdir public
           cp -r ckb/mochawesome-report/* public          
       - name: Deploy report page to GitHub Page
