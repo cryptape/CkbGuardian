@@ -5,7 +5,7 @@ import fetch from "cross-fetch";
 import {Context, describe} from "mocha";
 import {expect} from "chai";
 
-describe('1 Ckb Node Rpc check Tests', function () {
+describe('Ckb Node Rpc check Tests', function () {
     this.timeout(1000_00000)
     const ckbConfigs = getCkbNodeConfigByFile(CKB_CONFIG_FILE_PATH)
     let idx = 0;
