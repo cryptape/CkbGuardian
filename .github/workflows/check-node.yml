@@ -50,14 +50,15 @@ jobs:
       - name: Generate report
         if: success() || failure()
         run: |
+          mv ckb/mochawesome-report/mochawesome.html ckb/mochawesome-report/index.html 
           mkdir public
-          cp -r ckb/mochawesome-report/* public          
+          cp -r ckb/mochawesome-report/* public
       - name: Deploy report page to GitHub Page
         uses: peaceiris/actions-gh-pages@v3
         if: success() || failure()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public        
+          publish_dir: ./public
       - name: Publish reports
         if: always()
         uses: actions/upload-artifact@v2
