@@ -2,48 +2,16 @@ import {checkMethodIsExclude, CkbNodeConfig, getCkbNodeConfigByFile} from "../se
 import {CKB_CONFIG_FILE_PATH, RPC_DEBUG_SERVICE} from "../config/config";
 import {CKBRPC} from "@ckb-lumos/rpc";
 import fetch from "cross-fetch";
-import {Context, describe, Runner} from "mocha";
-import {Indexer} from "@ckb-lumos/lumos";
+import {Context, describe} from "mocha";
 import {expect} from "chai";
 
 describe('Ckb Node Rpc check Tests', function () {
     this.timeout(1000_00000)
     const ckbConfigs = getCkbNodeConfigByFile(CKB_CONFIG_FILE_PATH)
     let idx = 0;
-    async function testFunc(ctx:Context,request: any, config: CkbNodeConfig) {
-        if(ctx.test?.title == undefined){
-            return;
-        }
-        try {
-            await request
-            if (!checkMethodIsExclude(config, ctx.test.title)) {
-                return;
-            }
-            ctx.test.title =  ctx.test.title+",should failed,but support now"
-        } catch (e) {
-            if (!checkMethodIsExclude(config,  ctx.test.title)) {
-                throw new Error(e.toString());
-            }
-            ctx.test.title =  ctx.test.title+",should failed"
-            return;
-        }
-        throw new Error("method should not support")
-    }
-
     ckbConfigs.forEach(config => {
         const TestCkBkbClient = new CKBRPC(config.rpc);
-        // afterEach(function () {
-        //     if (!checkMethodIsExclude(config, this.currentTest.title)) {
-        //         return;
-        //     }
-        //     this.currentTest.title = this.currentTest.title + ",expected failed "
-        //     if (this.currentTest.isPassed()) {
-        //         this.currentTest.title = this.currentTest.title + ",but run passed now"
-        //         this.currentTest.state = "failed"
-        //         return;
-        //     }
-        //     this.currentTest.state = "passed"
-        // })
+
         before(async () => {
             const version = await getCkbVersion(TestCkBkbClient)
             this.suites[idx].title = this.suites[idx].title + "(" + version + ")"
@@ -51,62 +19,59 @@ describe('Ckb Node Rpc check Tests', function () {
         })
 
         describe(config.name, function () {
-
             describe('Chain', function () {
-
-
                 this.timeout(1000_000)
                 it('get_block', async () => {
-                    await testFunc(this.ctx,TestCkBkbClient.getBlock("0xb2671d3cc16b7738bbc8902ef11322bc2bfe7c54f5ce4a5cdfdf57b1a02fcb11"), config)
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.getBlock("0xb2671d3cc16b7738bbc8902ef11322bc2bfe7c54f5ce4a5cdfdf57b1a02fcb11"), config)
                 })
                 it("get_block_by_number", async () => {
-                    await testFunc(this.ctx,TestCkBkbClient.getBlockByNumber("0x400"), config)
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.getBlockByNumber("0x400"), config)
                 })
                 it("get_header", async () => {
-                    await testFunc(this.ctx,TestCkBkbClient.getHeader("0xb2671d3cc16b7738bbc8902ef11322bc2bfe7c54f5ce4a5cdfdf57b1a02fcb11"), config)
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.getHeader("0xb2671d3cc16b7738bbc8902ef11322bc2bfe7c54f5ce4a5cdfdf57b1a02fcb11"), config)
                 })
                 it("get_header_by_number", async () => {
-                    await testFunc(this.ctx,TestCkBkbClient.getHeaderByNumber("0x400"), config)
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.getHeaderByNumber("0x400"), config)
                 })
                 it("get_block_filter", async () => {
-                    await testFunc(this.ctx,request(1, config.rpc, "get_block_filter", ["0xb2671d3cc16b7738bbc8902ef11322bc2bfe7c54f5ce4a5cdfdf57b1a02fcb11"]), config)
+                    await ckbRequestTest(this.ctx, request(1, config.rpc, "get_block_filter", ["0xb2671d3cc16b7738bbc8902ef11322bc2bfe7c54f5ce4a5cdfdf57b1a02fcb11"]), config)
                 })
                 it("get_transaction", async () => {
-                    await testFunc(this.ctx,TestCkBkbClient.getTransaction("0x037dafd7f9c6f742e8c9f225191b441b0b5c4e8b3c1e87c29a2f2ec2fbbf6934"), config)
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.getTransaction("0x037dafd7f9c6f742e8c9f225191b441b0b5c4e8b3c1e87c29a2f2ec2fbbf6934"), config)
                 })
                 it("get_block_hash", async () => {
 
 
-                    await testFunc(this.ctx,TestCkBkbClient.getBlockHash("0x400"), config)
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.getBlockHash("0x400"), config)
                 })
                 it("get_tip_header", async () => {
-                    await testFunc(this.ctx,TestCkBkbClient.getTipHeader(), config)
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.getTipHeader(), config)
                 })
                 it("get_live_cell", async () => {
-                    await testFunc(this.ctx,TestCkBkbClient.getLiveCell({
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.getLiveCell({
                             "index": "0x0",
                             "txHash": "0x037dafd7f9c6f742e8c9f225191b441b0b5c4e8b3c1e87c29a2f2ec2fbbf6934"
                         },
                         true), config)
                 })
                 it("get_tip_block_number", async () => {
-                    await testFunc(this.ctx,TestCkBkbClient.getTipBlockNumber(), config)
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.getTipBlockNumber(), config)
                 })
                 it("get_current_epoch", async () => {
-                    await testFunc(this.ctx,TestCkBkbClient.getCurrentEpoch(), config)
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.getCurrentEpoch(), config)
                 })
                 it("get_epoch_by_number", async () => {
-                    await testFunc(this.ctx,TestCkBkbClient.getEpochByNumber("0x0"), config)
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.getEpochByNumber("0x0"), config)
                 })
 
                 it("get_block_economic_state", async () => {
-                    await testFunc(this.ctx,TestCkBkbClient.getBlockEconomicState("0xb2671d3cc16b7738bbc8902ef11322bc2bfe7c54f5ce4a5cdfdf57b1a02fcb11"), config)
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.getBlockEconomicState("0xb2671d3cc16b7738bbc8902ef11322bc2bfe7c54f5ce4a5cdfdf57b1a02fcb11"), config)
                 })
                 it("get_transaction_proof", async () => {
-                    await testFunc(this.ctx,TestCkBkbClient.getTransactionProof(["0x037dafd7f9c6f742e8c9f225191b441b0b5c4e8b3c1e87c29a2f2ec2fbbf6934"]), config)
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.getTransactionProof(["0x037dafd7f9c6f742e8c9f225191b441b0b5c4e8b3c1e87c29a2f2ec2fbbf6934"]), config)
                 })
                 it("verify_transaction_proof", async () => {
-                    await testFunc(this.ctx,TestCkBkbClient.verifyTransactionProof({
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.verifyTransactionProof({
                         "blockHash": "0xb3c5b9789dff3821e298a62e6cc4060accb19ed2558f988a8826573252b9ae20",
                         "proof": {
                             "indices": ["0x6"],
@@ -129,10 +94,10 @@ describe('Ckb Node Rpc check Tests', function () {
                 // })
 
                 it("get_consensus", async () => {
-                    await testFunc(this.ctx,TestCkBkbClient.getConsensus(), config)
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.getConsensus(), config)
                 })
                 it("get_block_median_time", async () => {
-                    await testFunc(this.ctx,request(1, config.rpc, "get_block_median_time", ["0xb3c5b9789dff3821e298a62e6cc4060accb19ed2558f988a8826573252b9ae20"]), config)
+                    await ckbRequestTest(this.ctx, request(1, config.rpc, "get_block_median_time", ["0xb3c5b9789dff3821e298a62e6cc4060accb19ed2558f988a8826573252b9ae20"]), config)
                 })
 
                 it("estimate_cycles", async () => {
@@ -189,10 +154,10 @@ describe('Ckb Node Rpc check Tests', function () {
                         expect.fail("failed")
                     }
 
-                    await testFunc(this.ctx,test(), config)
+                    await ckbRequestTest(this.ctx, test(), config)
                 })
                 it("get_fee_rate_statics", async () => {
-                    await testFunc(this.ctx,request(1, config.rpc, "get_fee_rate_statics", []), config)
+                    await ckbRequestTest(this.ctx, request(1, config.rpc, "get_fee_rate_statics", []), config)
                 })
             })
             describe('Experiment', function () {
@@ -212,7 +177,7 @@ describe('Ckb Node Rpc check Tests', function () {
                         expect.fail("failed ")
                     }
 
-                    await testFunc(this.ctx,test(), config)
+                    await ckbRequestTest(this.ctx, test(), config)
                 })
                 it("dry_run_transaction", async () => {
                     async function test() {
@@ -263,13 +228,13 @@ describe('Ckb Node Rpc check Tests', function () {
                         expect.fail("failed")
                     }
 
-                    await testFunc(this.ctx,test(), config)
+                    await ckbRequestTest(this.ctx, test(), config)
                 })
             })
             describe('Alert', function () {
                 it("send_alert", async () => {
 
-                    await testFunc(this.ctx,request(1, config.rpc, "send_alert", [
+                    await ckbRequestTest(this.ctx, request(1, config.rpc, "send_alert", [
                         {
                             "id": "0x1",
                             "cancel": "0x0",
@@ -283,118 +248,75 @@ describe('Ckb Node Rpc check Tests', function () {
                         }
                     ]), config)
                 })
-                describe('Indexer', function () {
-                    const indexerClient = new Indexer(config.rpc, config.rpc)
-                    it("get_indexer_tip", async () => {
-                        // await request(1,)
-                        await testFunc(this.ctx,TestCkBkbClient.getIndexerTip(), config)
-                    })
-                    it("get_cells", async () => {
-                        await testFunc(this.ctx,TestCkBkbClient.getCells({
+            })
+            describe('Indexer', function () {
+                it("get_indexer_tip", async () => {
+                    // await request(1,)
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.getIndexerTip(), config)
+                })
+                it("get_cells", async () => {
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.getCells({
+                        "script": {
+                            "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+                            "hashType": "type",
+                            "args": "0x5989ae415bb667931a99896e5fbbfad9ba53a223"
+                        },
+                        "scriptType": "lock"
+                    }, "asc", "0x64"), config)
+                })
+                it("get_transactions", async () => {
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.getTransactions({
                             "script": {
                                 "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
                                 "hashType": "type",
                                 "args": "0x5989ae415bb667931a99896e5fbbfad9ba53a223"
                             },
                             "scriptType": "lock"
-                        }, "asc", "0x64"), config)
-                    })
-                    it("get_transactions", async () => {
-                        await testFunc(this.ctx,TestCkBkbClient.getTransactions({
-                                "script": {
-                                    "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
-                                    "hashType": "type",
-                                    "args": "0x5989ae415bb667931a99896e5fbbfad9ba53a223"
-                                },
-                                "scriptType": "lock"
-                            }, "asc", "0x64"
-                        ), config)
-                    })
-                    it("get_cells_capacity", async () => {
-                        await testFunc(this.ctx,TestCkBkbClient.getCellsCapacity({
-                                "script": {
-                                    "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
-                                    "hashType": "type",
-                                    "args": "0x5989ae415bb667931a99896e5fbbfad9ba53a223"
-                                },
-                                "scriptType": "lock"
-                            })
-                            , config)
-                    })
-                    describe.skip('IntegrationTest', function () {
-                        it("process_block_without_verify", async () => {
-                            await testFunc(this.ctx,request(1, config.rpc, "process_block_without_verify", [
-                                {
-                                    "header": {
-                                        "compact_target": "0x1e083126",
-                                        "dao": "0xb5a3e047474401001bc476b9ee573000c0c387962a38000000febffacf030000",
-                                        "epoch": "0x7080018000001",
-                                        "extra_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                                        "nonce": "0x0",
-                                        "number": "0x400",
-                                        "parent_hash": "0xae003585fa15309b30b31aed3dcf385e9472c3c3e93746a6c4540629a6a1ed2d",
-                                        "proposals_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
-                                        "timestamp": "0x5cd2b117",
-                                        "transactions_root": "0xc47d5b78b3c4c4c853e2a32810818940d0ee403423bea9ec7b8e566d9595206c",
-                                        "version": "0x0"
-                                    },
-                                    "proposals": [],
-                                    "transactions": [{
-                                        "cell_deps": [],
-                                        "header_deps": [],
-                                        "inputs": [{
-                                            "previous_output": {
-                                                "index": "0xffffffff",
-                                                "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000"
-                                            },
-                                            "since": "0x400"
-                                        }],
-                                        "outputs": [{
-                                            "capacity": "0x18e64b61cf",
-                                            "lock": {
-                                                "code_hash": "0x28e83a1277d48add8e72fadaa9248559e1b632bab2bd60b27955ebc4c03800a5",
-                                                "hash_type": "data",
-                                                "args": "0x"
-                                            },
-                                            "type": null
-                                        }],
-                                        "outputs_data": [
-                                            "0x"
-                                        ],
-                                        "version": "0x0",
-                                        "witnesses": [
-                                            "0x450000000c000000410000003500000010000000300000003100000028e83a1277d48add8e72fadaa9248559e1b632bab2bd60b27955ebc4c03800a5000000000000000000"
-                                        ]
-                                    }],
-                                    "uncles": []
-                                },
-                                true
-                            ]), config)
+                        }, "asc", "0x64"
+                    ), config)
+                })
+                it("get_cells_capacity", async () => {
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.getCellsCapacity({
+                            "script": {
+                                "codeHash": "0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8",
+                                "hashType": "type",
+                                "args": "0x5989ae415bb667931a99896e5fbbfad9ba53a223"
+                            },
+                            "scriptType": "lock"
                         })
-                        it("truncate", async () => {
-                            await testFunc(this.ctx,request(1, config.rpc, "truncate", ["0xa5f5c85987a15de25661e5a214f2c1449cd803f071acc7999820f25246471f40"]), config)
-                        })
-                        it("notify_transaction", async () => {
-                            await testFunc(this.ctx,request(1, config.rpc, "notify_transaction", [{
-                                "cell_deps": [{
-                                    "dep_type": "code",
-                                    "out_point": {
-                                        "index": "0x0",
-                                        "tx_hash": "0xa4037a893eb48e18ed4ef61034ce26eba9c585f15c9cee102ae58505565eccc3"
-                                    }
-                                }],
-                                "header_deps": [
-                                    "0x7978ec7ce5b507cfb52e149e36b1a23f6062ed150503c85bbf825da3599095ed"
-                                ],
+                        , config)
+                })
+            })
+            describe.skip('IntegrationTest', function () {
+                it("process_block_without_verify", async () => {
+                    await ckbRequestTest(this.ctx, request(1, config.rpc, "process_block_without_verify", [
+                        {
+                            "header": {
+                                "compact_target": "0x1e083126",
+                                "dao": "0xb5a3e047474401001bc476b9ee573000c0c387962a38000000febffacf030000",
+                                "epoch": "0x7080018000001",
+                                "extra_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                                "nonce": "0x0",
+                                "number": "0x400",
+                                "parent_hash": "0xae003585fa15309b30b31aed3dcf385e9472c3c3e93746a6c4540629a6a1ed2d",
+                                "proposals_hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                                "timestamp": "0x5cd2b117",
+                                "transactions_root": "0xc47d5b78b3c4c4c853e2a32810818940d0ee403423bea9ec7b8e566d9595206c",
+                                "version": "0x0"
+                            },
+                            "proposals": [],
+                            "transactions": [{
+                                "cell_deps": [],
+                                "header_deps": [],
                                 "inputs": [{
                                     "previous_output": {
-                                        "index": "0x0",
-                                        "tx_hash": "0x365698b50ca0da75dca2c87f9e7b563811d3b5813736b8cc62cc3b106faceb17"
+                                        "index": "0xffffffff",
+                                        "tx_hash": "0x0000000000000000000000000000000000000000000000000000000000000000"
                                     },
-                                    "since": "0x0"
+                                    "since": "0x400"
                                 }],
                                 "outputs": [{
-                                    "capacity": "0x2540be400",
+                                    "capacity": "0x18e64b61cf",
                                     "lock": {
                                         "code_hash": "0x28e83a1277d48add8e72fadaa9248559e1b632bab2bd60b27955ebc4c03800a5",
                                         "hash_type": "data",
@@ -406,95 +328,137 @@ describe('Ckb Node Rpc check Tests', function () {
                                     "0x"
                                 ],
                                 "version": "0x0",
-                                "witnesses": []
-                            }]), config)
-                        })
-                    })
-                    describe('Net', function () {
-                        it("local_node_info", async () => {
-                            await testFunc(this.ctx,TestCkBkbClient.localNodeInfo(), config)
-                        })
-                        it("get_peers", async () => {
-                            await testFunc(this.ctx,TestCkBkbClient.getPeers(), config)
-                        })
-                        it("get_banned_addresses", async () => {
-                            await testFunc(this.ctx,TestCkBkbClient.getBannedAddresses(), config)
-                        })
-                        it("clear_banned_addresses", async () => {
-                            await testFunc(this.ctx,TestCkBkbClient.clearBannedAddresses(), config)
-                        })
-                        it("set_ban", async () => {
-                            await testFunc(this.ctx,TestCkBkbClient.setBan("192.168.0.2", "delete", "0x1ac89236180",
-                                true,
-                                "set_ban example"), config)
+                                "witnesses": [
+                                    "0x450000000c000000410000003500000010000000300000003100000028e83a1277d48add8e72fadaa9248559e1b632bab2bd60b27955ebc4c03800a5000000000000000000"
+                                ]
+                            }],
+                            "uncles": []
+                        },
+                        true
+                    ]), config)
+                })
+                it("truncate", async () => {
+                    await ckbRequestTest(this.ctx, request(1, config.rpc, "truncate", ["0xa5f5c85987a15de25661e5a214f2c1449cd803f071acc7999820f25246471f40"]), config)
+                })
+                it("notify_transaction", async () => {
+                    await ckbRequestTest(this.ctx, request(1, config.rpc, "notify_transaction", [{
+                        "cell_deps": [{
+                            "dep_type": "code",
+                            "out_point": {
+                                "index": "0x0",
+                                "tx_hash": "0xa4037a893eb48e18ed4ef61034ce26eba9c585f15c9cee102ae58505565eccc3"
+                            }
+                        }],
+                        "header_deps": [
+                            "0x7978ec7ce5b507cfb52e149e36b1a23f6062ed150503c85bbf825da3599095ed"
+                        ],
+                        "inputs": [{
+                            "previous_output": {
+                                "index": "0x0",
+                                "tx_hash": "0x365698b50ca0da75dca2c87f9e7b563811d3b5813736b8cc62cc3b106faceb17"
+                            },
+                            "since": "0x0"
+                        }],
+                        "outputs": [{
+                            "capacity": "0x2540be400",
+                            "lock": {
+                                "code_hash": "0x28e83a1277d48add8e72fadaa9248559e1b632bab2bd60b27955ebc4c03800a5",
+                                "hash_type": "data",
+                                "args": "0x"
+                            },
+                            "type": null
+                        }],
+                        "outputs_data": [
+                            "0x"
+                        ],
+                        "version": "0x0",
+                        "witnesses": []
+                    }]), config)
+                })
+            })
+            describe('Net', function () {
+                it("local_node_info", async () => {
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.localNodeInfo(), config)
+                })
+                it.only("get_peers", async () => {
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.getPeers(), config)
+                })
+                it("get_banned_addresses", async () => {
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.getBannedAddresses(), config)
+                })
+                it("clear_banned_addresses", async () => {
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.clearBannedAddresses(), config)
+                })
+                it("set_ban", async () => {
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.setBan("192.168.0.2", "delete", "0x1ac89236180",
+                        true,
+                        "set_ban example"), config)
 
-                        })
-                        it("sync_state", async () => {
-                            await testFunc(this.ctx,TestCkBkbClient.syncState(), config)
-                        })
-                        it("set_network_active", async () => {
-                            await testFunc(this.ctx,TestCkBkbClient.setNetworkActive(true), config)
-                        })
-                        it("add_node", async () => {
-                            await testFunc(this.ctx,TestCkBkbClient.addNode("id1", "/ip4/192.168.2.100/tcp/8114/QmUsZHPbjjzU627UZFt4k8j6ycEcNvXRnVGxCPKqwbAfQS"), config)
-                        })
-                        it("remove_node", async () => {
-                            await testFunc(this.ctx,TestCkBkbClient.removeNode("1234"), config)
-                        })
-                        it("ping_peers", async () => {
-                            await testFunc(this.ctx,TestCkBkbClient.pingPeers(), config)
-                        })
+                })
+                it("sync_state", async () => {
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.syncState(), config)
+                })
+                it("set_network_active", async () => {
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.setNetworkActive(true), config)
+                })
+                it("add_node", async () => {
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.addNode("id1", "/ip4/192.168.2.100/tcp/8114/QmUsZHPbjjzU627UZFt4k8j6ycEcNvXRnVGxCPKqwbAfQS"), config)
+                })
+                it("remove_node", async () => {
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.removeNode("1234"), config)
+                })
+                it("ping_peers", async () => {
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.pingPeers(), config)
+                })
 
-                    })
-                    describe('Pool', function () {
-                        it("send_transaction", async () => {
-                            //todo
-                        })
-                        it("remove_transaction", async () => {
-                            await testFunc(this.ctx,request(1, config.rpc, "remove_transaction", ["0xa0ef4eb5f4ceeb08a4c8524d84c5da95dce2f608e0ca2ec8091191b0f330c6e3"])
-                                , config)
-                        })
-                        it("tx_pool_info", async () => {
-                            await testFunc(this.ctx,TestCkBkbClient.txPoolInfo()
-                                , config)
-                        })
-                        it("clear_tx_pool", async () => {
-                            await testFunc(this.ctx,TestCkBkbClient.clearTxPool()
-                                , config)
-                        })
-                        it("get_raw_tx_pool", async () => {
-                            await testFunc(this.ctx,TestCkBkbClient.getRawTxPool()
-                                , config)
-                        })
-                        it("tx_pool_ready", async () => {
-                            await testFunc(this.ctx,request(1, config.rpc, "tx_pool_ready", [])
-                                , config)
-                        })
-                    });
-                    describe('Stats', function () {
-                        it("get_blockchain_info", async () => {
-                            await testFunc(this.ctx,request(1, config.rpc, "get_blockchain_info", [])
-                                , config)
-                        })
-                        it("get_deployments_info", async () => {
-                            await testFunc(this.ctx,request(1, config.rpc, "get_deployments_info", [])
-                                , config)
-                        })
-                    });
-                    describe('Subscription', function () {
-                        it("subscribe", async () => {
-                            await testFunc(this.ctx,request(1, config.rpc, "subscribe", ["new_tip_header"])
-                                , config)
-                        })
-                        it("unsubscribe", async () => {
-                            await testFunc(this.ctx,request(1, config.rpc, "unsubscribe", ["0x2a"])
-                                , config)
-                        })
-                    });
-                });
+            })
+            describe('Pool', function () {
+                it("send_transaction", async () => {
+                    //todo
+                })
+                it("remove_transaction", async () => {
+                    await ckbRequestTest(this.ctx, request(1, config.rpc, "remove_transaction", ["0xa0ef4eb5f4ceeb08a4c8524d84c5da95dce2f608e0ca2ec8091191b0f330c6e3"])
+                        , config)
+                })
+                it("tx_pool_info", async () => {
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.txPoolInfo()
+                        , config)
+                })
+                it("clear_tx_pool", async () => {
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.clearTxPool()
+                        , config)
+                })
+                it("get_raw_tx_pool", async () => {
+                    await ckbRequestTest(this.ctx, TestCkBkbClient.getRawTxPool()
+                        , config)
+                })
+                it("tx_pool_ready", async () => {
+                    await ckbRequestTest(this.ctx, request(1, config.rpc, "tx_pool_ready", [])
+                        , config)
+                })
             });
-        })
-    })
+            describe('Stats', function () {
+                it("get_blockchain_info", async () => {
+                    await ckbRequestTest(this.ctx, request(1, config.rpc, "get_blockchain_info", [])
+                        , config)
+                })
+                it("get_deployments_info", async () => {
+                    await ckbRequestTest(this.ctx, request(1, config.rpc, "get_deployments_info", [])
+                        , config)
+                })
+            });
+            describe('Subscription', function () {
+                it("subscribe", async () => {
+                    await ckbRequestTest(this.ctx, request(1, config.rpc, "subscribe", ["new_tip_header"])
+                        , config)
+                })
+                it("unsubscribe", async () => {
+                    await ckbRequestTest(this.ctx, request(1, config.rpc, "unsubscribe", ["0x2a"])
+                        , config)
+                })
+            });
+        });
+    });
 })
 
 const request = async (
@@ -557,3 +521,34 @@ async function getCkbVersion(ckbRpcClient: CKBRPC): Promise<String> {
     }
 
 }
+
+/**
+ * ckb  request test
+ * @param ctx
+ * @param request
+ * @param config
+ */
+async function ckbRequestTest(ctx: Context, request: any, config: CkbNodeConfig) {
+    if (ctx.test?.title == undefined) {
+        //todo: check could remove?
+        return;
+    }
+    try {
+        // wait request response ,not support method will return error
+        await request
+        if (!checkMethodIsExclude(config, ctx.test.title)) {
+            return;
+        }
+        // not support method ,but not throw error , should add "should fail,but support now" info in report
+        ctx.test.title = ctx.test.title + ",should failed,but support now"
+    } catch (e) {
+        if (!checkMethodIsExclude(config, ctx.test.title)) {
+            throw new Error(e.toString());
+        }
+        // not support method ,should add "should fail" info in report
+        ctx.test.title = ctx.test.title + ",should failed"
+        return;
+    }
+    throw new Error("method should not support")
+}
+
