@@ -1,11 +1,13 @@
 # CkbGuardian
-check ckb is work normal,only check support method ,not check method result
-- https://cryptape.github.io/CkbGuardian/index.html
+A RPC status monitor for well-known CKB public nodes. It checks RPC connectivity. It does NOT check result validity.
 
-# add rpc 
+Link: https://cryptape.github.io/CkbGuardian/index.html
 
-pull request data to  https://github.com/cryptape/CkbGuardian/blob/main/ckb/resource/ckb.json
+# How to Add New Node 
 
+Edit https://github.com/cryptape/CkbGuardian/blob/main/ckb/resource/ckb.json and send a pull request.
+
+Example: https://github.com/cryptape/CkbGuardian/pull/2/commits/a2dcefed7a61fbfa40d89564a9e8520dd7bc2cd2
 
 ```
 export class CkbNodeConfig {
@@ -17,8 +19,6 @@ export class CkbNodeConfig {
     excludeMethods: string[]. // service not support methods 
 }
 ```
-If you want to be able to check your ckb node every day, you can submit an `issue`  or  `pull request`
-- example: https://github.com/cryptape/CkbGuardian/pull/2/commits/a2dcefed7a61fbfa40d89564a9e8520dd7bc2cd2
 
 ### apiKeyName
 if connect ckb service need api key 
