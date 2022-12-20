@@ -7,10 +7,24 @@
     "excludeMethods": ["send_alert","get_fee_rate_statics","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","subscribe","unsubscribe"]
   },
   {
+    "name": "publicApp",
+    "url": "https://mainnet.ckbapp.dev/",
+    "network": "MIRANA",
+    "rpc": "https://mainnet.ckbapp.dev/",
+    "excludeMethods": ["send_alert","get_fee_rate_statics","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","subscribe","unsubscribe"]
+  },
+  {
     "name": "public",
     "url": "https://testnet.ckb.dev/",
     "network": "PUDGE",
     "rpc": "https://testnet.ckb.dev/",
+    "excludeMethods": ["send_alert","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","subscribe","unsubscribe"]
+  },
+  {
+    "name": "publicApp",
+    "url": "https://testnet.ckbapp.dev/",
+    "network": "PUDGE",
+    "rpc": "https://testnet.ckbapp.dev/",
     "excludeMethods": ["send_alert","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","subscribe","unsubscribe"]
   },
   {
