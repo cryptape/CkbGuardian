@@ -17,7 +17,7 @@ export function getCkbNodeConfigByFile(path: string): CkbNodeConfig[] {
     return JSON.parse(rawData.toString())
         .map(config => {
             if (process.env[config.apiKeyName] != undefined) {
-                config.rpc = config.rpc + process.env[config.apiKeyName]
+                config.rpc = config.rpc.replace("${apiKeyName}" , process.env[config.apiKeyName])
             }
             return {
                 name: config.name,
