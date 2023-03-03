@@ -4,28 +4,72 @@
     "url": "https://mainnet.ckb.dev/",
     "network": "MIRANA",
     "rpc": "https://mainnet.ckb.dev/",
-    "excludeMethods": ["send_alert","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","subscribe","unsubscribe"]
+    "excludeMethods": [
+      "send_alert",
+      "clear_banned_addresses",
+      "set_ban",
+      "set_network_active",
+      "add_node",
+      "remove_node",
+      "remove_transaction",
+      "clear_tx_pool",
+      "subscribe",
+      "unsubscribe"
+    ]
   },
   {
     "name": "publicApp",
     "url": "https://mainnet.ckbapp.dev/",
     "network": "MIRANA",
     "rpc": "https://mainnet.ckbapp.dev/",
-    "excludeMethods": ["send_alert","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","subscribe","unsubscribe"]
+    "excludeMethods": [
+      "send_alert",
+      "clear_banned_addresses",
+      "set_ban",
+      "set_network_active",
+      "add_node",
+      "remove_node",
+      "remove_transaction",
+      "clear_tx_pool",
+      "subscribe",
+      "unsubscribe"
+    ]
   },
   {
     "name": "public",
     "url": "https://testnet.ckb.dev/",
     "network": "PUDGE",
     "rpc": "https://testnet.ckb.dev/",
-    "excludeMethods": ["send_alert","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","subscribe","unsubscribe"]
+    "excludeMethods": [
+      "send_alert",
+      "clear_banned_addresses",
+      "set_ban",
+      "set_network_active",
+      "add_node",
+      "remove_node",
+      "remove_transaction",
+      "clear_tx_pool",
+      "subscribe",
+      "unsubscribe"
+    ]
   },
   {
     "name": "publicApp",
     "url": "https://testnet.ckbapp.dev/",
     "network": "PUDGE",
     "rpc": "https://testnet.ckbapp.dev/",
-    "excludeMethods": ["send_alert","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","subscribe","unsubscribe"]
+    "excludeMethods": [
+      "send_alert",
+      "clear_banned_addresses",
+      "set_ban",
+      "set_network_active",
+      "add_node",
+      "remove_node",
+      "remove_transaction",
+      "clear_tx_pool",
+      "subscribe",
+      "unsubscribe"
+    ]
   },
   {
     "name": "unifra",
@@ -33,14 +77,44 @@
     "network": "MIRANA",
     "rpc": "https://ckb-mirana.unifra.io/v1/${apiKeyName}",
     "apiKeyName": "UNIFRA_API_KEY",
-    "excludeMethods": ["send_alert","get_fee_rate_statics","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","get_banned_addresses","ping_peers","subscribe","unsubscribe"]
+    "excludeMethods": [
+      "send_alert",
+      "get_fee_rate_statics",
+      "clear_banned_addresses",
+      "set_ban",
+      "set_network_active",
+      "add_node",
+      "remove_node",
+      "remove_transaction",
+      "clear_tx_pool",
+      "get_banned_addresses",
+      "ping_peers",
+      "subscribe",
+      "unsubscribe"
+    ]
   },
   {
     "name": "ankr",
     "url": "",
     "network": "MIRANA",
     "rpc": "https://rpc.ankr.com/nervos_ckb",
-    "excludeMethods": ["send_alert","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","get_banned_addresses","ping_peers","subscribe","unsubscribe","local_node_info","get_peers","sync_state"]
+    "excludeMethods": [
+      "send_alert",
+      "clear_banned_addresses",
+      "set_ban",
+      "set_network_active",
+      "add_node",
+      "remove_node",
+      "remove_transaction",
+      "clear_tx_pool",
+      "get_banned_addresses",
+      "ping_peers",
+      "subscribe",
+      "unsubscribe",
+      "local_node_info",
+      "get_peers",
+      "sync_state"
+    ]
   },
   {
     "name": "getblock",
@@ -48,7 +122,18 @@
     "network": "MIRANA",
     "apiKeyName": "GET_BLOCK_API_KEY",
     "rpc": "https://ckb.getblock.io/${apiKeyName}/mainnet/",
-    "excludeMethods": ["send_alert","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","subscribe","unsubscribe"]
+    "excludeMethods": [
+      "send_alert",
+      "clear_banned_addresses",
+      "set_ban",
+      "set_network_active",
+      "add_node",
+      "remove_node",
+      "remove_transaction",
+      "clear_tx_pool",
+      "subscribe",
+      "unsubscribe"
+    ]
   },
   {
     "name": "getblock",
@@ -56,6 +141,17 @@
     "network": "PUDGE",
     "apiKeyName": "GET_BLOCK_API_KEY",
     "rpc": "https://ckb.getblock.io/${apiKeyName}/testnet/",
-    "excludeMethods": ["send_alert","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","subscribe","unsubscribe"]
+    "excludeMethods": [
+      "send_alert",
+      "clear_banned_addresses",
+      "set_ban",
+      "set_network_active",
+      "add_node",
+      "remove_node",
+      "remove_transaction",
+      "clear_tx_pool",
+      "subscribe",
+      "unsubscribe"
+    ]
   }
 ]
