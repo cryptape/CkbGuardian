@@ -24,4 +24,9 @@ export class CkbNodeConfig {
 if connect ckb service need api key 
 1. add apikeyName : apiKeyName:SERVICE_API_KEY
 2. add .env : SERVICE_API_KEY="xxxxxx" :https://github.com/gpBlockchain/CkbGuardian/blob/main/ckb/.env
-3. mod gitflow:https://github.com/gpBlockchain/CkbGuardian/blob/main/.github/workflows/check-node.yml#L45-L46
+3. mod gitflow:https://github.com/cryptape/CkbGuardian/blob/main/.github/workflows/check-node.yml#L45-L46
+
+### limit dangerous rpc's
+
+You can use https://github.com/jiangxianliang007/ckb-nginx-proxy to run the ckb proxy to limit dangerous rpc's
+
