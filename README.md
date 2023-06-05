@@ -1,32 +1,36 @@
 # CkbGuardian
-A RPC status monitor for well-known CKB public nodes. It checks RPC connectivity. It does NOT check result validity.
 
-Link: https://cryptape.github.io/CkbGuardian/index.html
+CkbGuardian is a tool designed to monitor the RPC status of well-known CKB public nodes. Its main function is to check the connectivity of RPC, not the validity of results.
 
-# How to Add New Node 
+Visit the link: https://cryptape.github.io/CkbGuardian/index.html
 
-Edit https://github.com/cryptape/CkbGuardian/blob/main/ckb/resource/ckb.json and send a pull request.
+# How to Add a New Node
 
-Example: https://github.com/cryptape/CkbGuardian/pull/2/commits/a2dcefed7a61fbfa40d89564a9e8520dd7bc2cd2
+If you want to add a new node, you can edit this file: https://github.com/cryptape/CkbGuardian/blob/main/ckb/resource/ckb.json, and then submit a pull request.
 
-```
-export class CkbNodeConfig {
-    name: string.  // server name
-    url: string.   // server url 
-    network: string. // now noly support main 
-    rpc: string.     // rpc url 
-    apiKeyName: string. // if need api-key 
-    excludeMethods: string[]. // service not support methods 
-}
+Here's an example: https://github.com/cryptape/CkbGuardian/pull/2/commits/a2dcefed7a61fbfa40d89564a9e8520dd7bc2cd2
+
+The node configuration should follow this format:
+
+```javascript
+    export class CkbNodeConfig {
+        name: string.  // Server name
+        url: string.   // Server URL
+        network: string. // Currently support the main  and test network
+        rpc: string.     // RPC URL
+        apiKeyName: string. // If an API key is needed
+        excludeMethods: string[]. // Methods not supported by the service
+    }
 ```
 
 ### apiKeyName
-if connect ckb service need api key 
-1. add apikeyName : apiKeyName:SERVICE_API_KEY
-2. add .env : SERVICE_API_KEY="xxxxxx" :https://github.com/gpBlockchain/CkbGuardian/blob/main/ckb/.env
-3. mod gitflow:https://github.com/cryptape/CkbGuardian/blob/main/.github/workflows/check-node.yml#L45-L46
 
-### limit dangerous rpc's
+If connecting to the CKB service requires an API key, you need to:
 
-You can use https://github.com/jiangxianliang007/ckb-nginx-proxy to run the ckb proxy to limit dangerous rpc's
+  1. Add apiKeyName : apiKeyName:SERVICE_API_KEY
+  2. Add to .env file: SERVICE_API_KEY="xxxxxx", file location: https://github.com/gpBlockchain/CkbGuardian/blob/main/ckb/.env
+  3. Modify gitflow, see: https://github.com/cryptape/CkbGuardian/blob/main/.github/workflows/check-node.yml#L45-L46
 
+### Limiting Dangerous RPCs
+
+You can use https://github.com/jiangxianliang007/ckb-nginx-proxy to run the CKB proxy to limit dangerous RPCs.
