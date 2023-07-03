@@ -88,7 +88,7 @@ describe('Ckb Node Rpc check Tests', function () {
                 // })
 
                 it("get_consensus", async () => {
-                    await ckbRequestTest(this.ctx, TestCkBkbClient.getConsensus(), config)
+                    await ckbRequestTest(this.ctx, request(1,config.rpc,"get_consensus",[]), config)
                 })
                 it("get_block_median_time", async () => {
                     await ckbRequestTest(this.ctx, request(1, config.rpc, "get_block_median_time", ["0xb3c5b9789dff3821e298a62e6cc4060accb19ed2558f988a8826573252b9ae20"]), config)
