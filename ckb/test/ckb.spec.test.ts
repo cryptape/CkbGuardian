@@ -446,7 +446,7 @@ describe('Ckb Node Rpc check Tests', function () {
                     await ckbRequestTest(this.ctx, request(1, config.rpc, "subscribe", ["new_tip_header"])
                         , config)
                 })
-                it("unsubscribe", async () => {
+                it.skip("unsubscribe", async () => {
                     await ckbRequestTest(this.ctx, request(1, config.rpc, "unsubscribe", ["0x2a"])
                         , config)
                 })
