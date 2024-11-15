@@ -26,5 +26,12 @@
     "network": "PUDGE",
     "rpc": "https://testnet.ckbapp.dev/",
     "excludeMethods": ["send_alert","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","subscribe","unsubscribe"]
+  },
+  {
+    "name": "ankr",
+    "url": "",
+    "network": "MIRANA",
+    "rpc": "https://rpc.ankr.com/nervos_ckb",
+    "excludeMethods": ["send_alert","clear_banned_addresses","set_ban","set_network_active","add_node","remove_node","remove_transaction","clear_tx_pool","subscribe","unsubscribe"]
   }
 ]
