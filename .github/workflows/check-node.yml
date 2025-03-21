@@ -43,6 +43,7 @@ jobs:
         id: test-cli
         env:
           GET_BLOCK_API_KEY: '${{ secrets.GET_BLOCK_API_KEY }}'
+          ANKR_API_KEY: '${{ secrets.ANKR_API_KEY }}'
         run: |
           cd ckb
           npm run test
